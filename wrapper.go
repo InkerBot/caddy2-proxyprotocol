@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
+	"github.com/InkerBot/proxyprotocol"
 	"github.com/caddyserver/caddy/v2"
-	"github.com/mastercactapus/proxyprotocol"
 )
 
 // Wrapper provides PROXY protocol support to Caddy by implementing the caddy.ListenerWrapper interface. It must be loaded before the `tls` listener.
@@ -47,6 +47,5 @@ func (pp *Wrapper) Provision(ctx caddy.Context) error {
 func (pp *Wrapper) WrapListener(l net.Listener) net.Listener {
 	pL := proxyprotocol.NewListener(l, time.Duration(pp.Timeout))
 	pL.SetFilter(pp.rules)
-
 	return pL
 }
